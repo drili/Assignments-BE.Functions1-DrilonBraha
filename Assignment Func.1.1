@@ -1,0 +1,53 @@
+// Create a function fibonacci(n int) that calculates the n-th Fibonacci number. Demonstrate it's usage with some sql statements. 
+// Make a comment in the function telling us whether your series starts with 0 or 1.
+
+MariaDB [(none)]> use codenair;
+Database changed
+MariaDB [codenair]> delimiter //
+MariaDB [codenair]> drop function if exists fib//
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [codenair]> create function fib(end int)
+    -> returns varchar(255)
+    -> BEGIN
+    ->       declare a int;
+    ->       declare b int;
+    ->       declare fib int;
+    ->       declare counter int;
+    ->       declare fstring varchar(255);
+    ->
+    ->       set end = end - 2;
+    ->       set a = 0;
+    ->       set b = 1;
+    ->       set fib = 0;
+    ->       set counter = 0;
+    ->
+    ->       while (counter < end) do
+    ->       BEGIN
+    ->             set fib = a + b;
+    ->             set a = b;
+    ->             set b = fib;
+    ->             set counter = counter + 1;
+    ->       END;
+    ->       end while;
+    ->       return fib;
+    -> END;//
+Query OK, 0 rows affected (0.06 sec)
+
+MariaDB [codenair]> select fib(9)//
++--------+
+| fib(9) |
++--------+
+| 21     |
++--------+
+1 row in set (0.00 sec)
+
+MariaDB [codenair]> select fib(11)//
++---------+
+| fib(11) |
++---------+
+| 55      |
++---------+
+1 row in set (0.00 sec)
+
+MariaDB [codenair]>
