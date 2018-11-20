@@ -1,0 +1,54 @@
+// Create a function isPrime(n int) that returns true (1) if n is a prime number, otherwise it returns false (0). 
+// Demonstrate it's usage with some sql statements.
+
+MariaDB [(none)]> use codenair;
+Database changed
+MariaDB [codenair]> delimiter //
+MariaDB [codenair]> drop function if exists isPrime//
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+MariaDB [codenair]>
+MariaDB [codenair]> create function isPrime(number int)
+    -> returns VARCHAR(10)
+    -> BEGIN
+    ->       declare isPrime int;
+    ->       declare divide int;
+    ->
+    ->       if(number % 2 = 0 AND number > 2)
+    ->             then
+    ->             set isPrime = 0;
+    ->       else
+    ->             set isPrime = 1;
+    ->       end if;
+    ->
+    ->       set divide = 3;
+    ->
+    ->       while (divide <= floor(sqrt(number))) AND (isPrime = 1) do
+    ->       BEGIN
+    ->             if number % divide = 0
+    ->             then
+    ->             set isPrime = 0;
+    ->             set divide = divide + 2;
+    ->             end if;
+    ->       END;
+    ->       end while;
+    ->       return isPrime;
+    -> END;
+    -> //
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [codenair]> select isPrime(3)//
++------------+
+| isPrime(3) |
++------------+
+| 1          |
++------------+
+1 row in set (0.00 sec)
+
+MariaDB [codenair]> select isPrime(4)//
++------------+
+| isPrime(4) |
++------------+
+| 0          |
++------------+
+1 row in set (0.00 sec)
